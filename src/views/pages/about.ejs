@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="uv-themed-page section">
+  <div class="container narrow-board">
+    <p class="eyebrow">About Page</p>
+    <div class="uv-board about-board">
+      <div class="about-panel">
+        <p class="about-badge">About</p>
+        <h1>ABOUT</h1>
+        <div class="prose">
+          <% if (about.body && about.body.trim()) { %>
+            <% about.body.split('\n').forEach((paragraph) => { %>
+              <% if (paragraph.trim()) { %>
+                <p><%= paragraph %></p>
+              <% } %>
+            <% }) %>
+          <% } else { %>
+            <p>Ultraviolet is a student club and magazine dedicated to writing, visual art, music, and film.</p>
+          <% } %>
+        </div>
+        <div class="about-social">
+          <a href="https://www.instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://www.facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="mailto:ultravioletmagazine@gmail.com">Email</a>
+        </div>
+      </div>
+      <div class="about-art" aria-hidden="true"></div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

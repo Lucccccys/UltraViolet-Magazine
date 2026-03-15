@@ -1,0 +1,69 @@
+<%- include('../partials/head') %>
+  <%- include('../partials/header') %>
+    <main class="uv-themed-page">
+      <section class="section">
+        <div class="container narrow-board">
+          <div class="uv-board home-board">
+            <div class="home-board-header">
+              <h1>UltraViolet Magazine</h1>
+              <div class="home-board-nav">
+                <a href="/about">About</a>
+                <a href="/gallery">Gallery</a>
+                <a href="<%= submitUrl %>" target="_blank" rel="noreferrer">Submit</a>
+              </div>
+            </div>
+
+            <div class="home-board-issues">
+              <h2>Featured issues</h2>
+              <div class="home-issues-row">
+                <% const issueTiles=featuredIssues.slice(0, 4); %>
+                  <% issueTiles.forEach((issue)=> { %>
+                    <article class="issue-tile <%= issue.coverImageUrl ? 'issue-tile-with-cover' : '' %>">
+                      <% if (issue.coverImageUrl) { %>
+                        <img class="issue-tile-cover" src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>"
+                          loading="lazy" />
+                        <% } %>
+                          <div class="issue-tile-content">
+                            <p class="issue-tile-year">
+                              <%= issue.year %>
+                            </p>
+                            <p class="issue-tile-meta">issue</p>
+                            <p class="issue-tile-title">
+                              <%= issue.title %>
+                            </p>
+                            <% if (issue.externalUrl) { %>
+                              <a href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">Open issue</a>
+                              <% } %>
+                          </div>
+                    </article>
+                    <% }) %>
+                      <% for (let i=issueTiles.length; i < 4; i +=1) { %>
+                        <article class="issue-tile issue-tile-empty">
+                          <p class="issue-tile-year">20<%= 23 + i %>
+                          </p>
+                          <p class="issue-tile-meta">issue</p>
+                          <p class="issue-tile-title">Upcoming archive entry</p>
+                        </article>
+                        <% } %>
+              </div>
+            </div>
+
+            <div class="home-board-slogan">
+              <p>
+                <%= siteSettings.heroTagline || 'Get Creative. Explore Boundaries' %>
+              </p>
+            </div>
+
+            <div class="home-board-meta">
+              <div class="home-mini-social">
+                <a href="https://www.instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+                <a href="https://www.facebook.com" target="_blank" rel="noreferrer">Facebook</a>
+                <a href="mailto:ultravioletmagazine@gmail.com">Email</a>
+              </div>
+              <p>Ultraviolet Magazine - Queen's University, Kingston ON</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>

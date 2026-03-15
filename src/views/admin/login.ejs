@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container narrow">
+    <%- include('../partials/admin-back') %>
+    <p class="eyebrow">Admin</p>
+    <h1>Sign in</h1>
+    <form class="site-form" action="/admin/login" method="POST">
+      <label>
+        Email
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Password
+        <input type="password" name="password" required />
+      </label>
+      <button class="button" type="submit">Sign in</button>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>

@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+    <div class="admin-toolbar">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h1>Issues</h1>
+      </div>
+      <a class="button" href="/admin/issues/new">New issue</a>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Title</th>
+            <th>Featured</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% issues.forEach((issue) => { %>
+            <tr>
+              <td><%= issue.year %></td>
+              <td><%= issue.title %></td>
+              <td><%= issue.isFeatured ? 'Yes' : 'No' %></td>
+              <td>
+                <div class="row-actions">
+                  <a href="/admin/issues/<%= issue._id %>/edit">Edit</a>
+                  <form action="/admin/issues/<%= issue._id %>/delete" method="POST" onsubmit="return confirm('Delete this issue?');">
+                    <button type="submit">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

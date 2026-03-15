@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="/" class="logo-link">UV Magazine</a>
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a class="<%= currentPath === '/about' ? 'active' : '' %>" href="/about">About</a>
+      <a class="<%= currentPath.startsWith('/gallery') ? 'active' : '' %>" href="/gallery">Gallery</a>
+      <a href="<%= submitUrl %>" target="_blank" rel="noreferrer">Submit</a>
+      <% if (isAdminAuthenticated) { %>
+        <a class="<%= currentPath.startsWith('/admin') ? 'active' : '' %>" href="/admin">Admin</a>
+      <% } else { %>
+        <a href="/admin/login">Admin</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+<% if (message) { %>
+  <div class="container flash-row">
+    <div class="flash flash-<%= message.type %>"><%= message.text %></div>
+  </div>
+<% } %>

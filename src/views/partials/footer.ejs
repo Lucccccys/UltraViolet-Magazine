@@ -1,0 +1,20 @@
+<footer class="site-footer">
+  <div class="container footer-content">
+    <div>
+      <strong><%= siteSettings.heroTitle || 'Ultraviolet Magazine' %></strong>
+      <p><%= siteSettings.footerText || 'Ultraviolet Magazine — Queen’s University, Kingston ON' %></p>
+    </div>
+    <div class="social-links" aria-label="Social and official links">
+      <% socialLinks.forEach((link) => { %>
+        <a href="<%= link.url %>" target="_blank" rel="noreferrer"><%= link.label %></a>
+      <% }) %>
+      <a href="<%= submitUrl %>" target="_blank" rel="noreferrer">Submit</a>
+      <a href="<%= issuesArchiveUrl %>" target="_blank" rel="noreferrer">Issuu</a>
+      <% if (legacySiteUrl) { %>
+        <a href="<%= legacySiteUrl %>" target="_blank" rel="noreferrer">Legacy Site</a>
+      <% } %>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

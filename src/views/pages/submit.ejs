@@ -1,0 +1,53 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container form-container">
+    <div>
+      <p class="eyebrow">Submit</p>
+      <h1>Local submission test form</h1>
+      <p>Public submit buttons now open the official Google Form. This page stays available for internal testing and admin review workflows.</p>
+    </div>
+    <form class="site-form" action="/submit/local" method="POST">
+      <label>
+        Your name *
+        <input type="text" name="name" required />
+      </label>
+      <label>
+        Email *
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Category *
+        <select name="category" required>
+          <option value="">Select a category</option>
+          <option value="look">Look</option>
+          <option value="read">Read</option>
+          <option value="listen">Listen</option>
+          <option value="watch">Watch</option>
+        </select>
+      </label>
+      <label>
+        Title *
+        <input type="text" name="title" required />
+      </label>
+      <label>
+        Creator name
+        <input type="text" name="creatorName" />
+      </label>
+      <label>
+        Short summary
+        <textarea name="summary" rows="4"></textarea>
+      </label>
+      <label>
+        Asset URL
+        <input type="url" name="assetUrl" placeholder="https://..." />
+      </label>
+      <label>
+        Notes
+        <textarea name="notes" rows="5"></textarea>
+      </label>
+      <button class="button" type="submit">Submit</button>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>

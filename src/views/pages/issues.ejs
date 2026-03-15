@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <p class="eyebrow">Issues</p>
+    <h1>Magazine archive</h1>
+    <div class="card-grid issues-grid">
+      <% issues.forEach((issue) => { %>
+        <article class="card issue-card">
+          <img src="<%= issue.coverImageUrl || 'https://placehold.co/600x800?text=Issue' %>" alt="<%= issue.title %>" />
+          <div class="card-body">
+            <p class="issue-year"><%= issue.year %></p>
+            <h2><%= issue.title %></h2>
+            <p><%= issue.summary %></p>
+            <% if (issue.externalUrl) { %>
+              <a class="text-link" href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">Open issue</a>
+            <% } %>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

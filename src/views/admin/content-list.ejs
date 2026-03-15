@@ -1,0 +1,46 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+    <div class="admin-toolbar">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h1>Content</h1>
+      </div>
+      <a class="button" href="/admin/content/new">New content</a>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Creator</th>
+            <th>Published</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach((item) => { %>
+            <tr>
+              <td><%= item.title %></td>
+              <td><%= item.category %></td>
+              <td><%= item.creatorName %></td>
+              <td><%= item.isPublished ? 'Yes' : 'No' %></td>
+              <td>
+                <div class="row-actions">
+                  <a href="/admin/content/<%= item._id %>/edit">Edit</a>
+                  <form action="/admin/content/<%= item._id %>/delete" method="POST" onsubmit="return confirm('Delete this content item?');">
+                    <button type="submit">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

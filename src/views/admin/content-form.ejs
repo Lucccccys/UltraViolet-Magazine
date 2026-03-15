@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+  </div>
+  <div class="container form-container">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1><%= item ? 'Edit content' : 'Create content' %></h1>
+    </div>
+    <form class="site-form" action="<%= formAction %>" method="POST">
+      <label>Title <input type="text" name="title" value="<%= item?.title || '' %>" required /></label>
+      <label>Slug <input type="text" name="slug" value="<%= item?.slug || '' %>" /></label>
+      <label>
+        Category
+        <select name="category" required>
+          <% ['look','read','listen','watch'].forEach((option) => { %>
+            <option value="<%= option %>" <%= item?.category === option ? 'selected' : '' %>><%= option %></option>
+          <% }) %>
+        </select>
+      </label>
+      <label>Subtype <input type="text" name="subtype" value="<%= item?.subtype || '' %>" /></label>
+      <label>Creator name <input type="text" name="creatorName" value="<%= item?.creatorName || '' %>" required /></label>
+      <label>Summary <textarea name="summary" rows="4"><%= item?.summary || '' %></textarea></label>
+      <label>Body <textarea name="body" rows="8"><%= item?.body || '' %></textarea></label>
+      <label>Issue year <input type="number" name="issueYear" value="<%= item?.issueYear || '' %>" /></label>
+      <label>Cover image URL <input type="url" name="coverImageUrl" value="<%= item?.coverImageUrl || '' %>" /></label>
+      <label>Image URLs, one per line <textarea name="imageUrls" rows="5"><%= item?.imageUrls?.join('\n') || '' %></textarea></label>
+      <label>Audio URL <input type="url" name="audioUrl" value="<%= item?.audioUrl || '' %>" /></label>
+      <label>Video URL <input type="url" name="videoUrl" value="<%= item?.videoUrl || '' %>" /></label>
+      <label>External URL <input type="url" name="externalUrl" value="<%= item?.externalUrl || '' %>" /></label>
+      <label>Duration label <input type="text" name="durationLabel" value="<%= item?.durationLabel || '' %>" /></label>
+      <label>Sort order <input type="number" name="sortOrder" value="<%= item?.sortOrder || 0 %>" /></label>
+      <label class="checkbox-row"><input type="checkbox" name="isPublished" <%= item?.isPublished !== false ? 'checked' : '' %> /> Published</label>
+      <label class="checkbox-row"><input type="checkbox" name="isFeatured" <%= item?.isFeatured ? 'checked' : '' %> /> Featured</label>
+      <div class="button-row">
+        <button class="button" type="submit">Save</button>
+        <a class="button button-secondary" href="/admin/content">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>

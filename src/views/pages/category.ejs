@@ -1,0 +1,103 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <div class="page-back-row">
+      <a class="page-back-link" href="/gallery" aria-label="Back to gallery">← Back</a>
+    </div>
+    <p class="eyebrow"><%= meta.title %> Page</p>
+    <h1><%= meta.subtitle %></h1>
+
+    <% if (category === 'look') { %>
+      <div class="section-label-row">
+        <span class="pill">Artwork</span>
+        <span class="pill">Photography</span>
+      </div>
+      <div class="masonry-grid">
+        <% items.forEach((item) => { %>
+          <a class="masonry-item" href="/content/<%= item.slug %>">
+            <img src="<%= item.coverImageUrl || 'https://placehold.co/700x700?text=Artwork' %>" alt="<%= item.title %>" />
+            <div class="overlay">
+              <h3><%= item.title %></h3>
+              <p><%= item.creatorName %></p>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (category === 'read') { %>
+      <div class="section-label-row">
+        <span class="pill">Short Stories</span>
+        <span class="pill">Poems</span>
+      </div>
+      <div class="card-grid">
+        <% items.forEach((item) => { %>
+          <article class="card read-card">
+            <div class="card-body">
+              <span class="pill"><%= item.subtype || 'piece' %></span>
+              <h3><%= item.title %></h3>
+              <p>By <%= item.creatorName %></p>
+              <p><%= item.summary %></p>
+              <a class="button button-secondary" href="/content/<%= item.slug %>">Read</a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (category === 'listen') { %>
+      <div class="section-label-row">
+        <span class="pill">Music</span>
+        <span class="pill">Spoken Word</span>
+      </div>
+      <div class="stack-list">
+        <% items.forEach((item) => { %>
+          <article class="audio-card">
+            <div>
+              <h3><%= item.title %></h3>
+              <p>By <%= item.creatorName %></p>
+              <p><%= item.summary %></p>
+            </div>
+            <audio controls preload="none" src="<%= item.audioUrl %>"></audio>
+            <% if (item.durationLabel) { %>
+              <p class="muted">Runtime: <%= item.durationLabel %></p>
+            <% } %>
+            <a class="button button-secondary" href="/content/<%= item.slug %>">Details</a>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (category === 'watch') { %>
+      <div class="section-label-row">
+        <span class="pill">Short Films</span>
+        <span class="pill">Videos</span>
+      </div>
+      <div class="stack-list video-list">
+        <% items.forEach((item) => { %>
+          <article class="video-card">
+            <div>
+              <h3><%= item.title %></h3>
+              <p>By <%= item.creatorName %></p>
+              <p><%= item.summary %></p>
+            </div>
+            <% if (isEmbeddableVideo(item.videoUrl)) { %>
+              <iframe src="<%= toEmbedUrl(item.videoUrl) %>" title="<%= item.title %> video" allowfullscreen loading="lazy"></iframe>
+            <% } else if (item.videoUrl) { %>
+              <video controls preload="metadata" src="<%= item.videoUrl %>"></video>
+            <% } %>
+            <a class="button button-secondary" href="/content/<%= item.slug %>">Details</a>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (!items.length) { %>
+      <div class="empty-state">
+        <p>No published items are available yet for this category.</p>
+      </div>
+    <% } %>
+  </div>
+</main>
+<%- include('../partials/footer') %>

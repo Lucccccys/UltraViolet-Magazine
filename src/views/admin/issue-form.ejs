@@ -1,0 +1,27 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+  </div>
+  <div class="container form-container">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1><%= issue ? 'Edit issue' : 'Create issue' %></h1>
+    </div>
+    <form class="site-form" action="<%= formAction %>" method="POST">
+      <label>Year <input type="number" name="year" value="<%= issue?.year || '' %>" required /></label>
+      <label>Title <input type="text" name="title" value="<%= issue?.title || '' %>" required /></label>
+      <label>Summary <textarea name="summary" rows="4"><%= issue?.summary || '' %></textarea></label>
+      <label>Cover image URL <input type="url" name="coverImageUrl" value="<%= issue?.coverImageUrl || '' %>" /></label>
+      <label>External issue URL <input type="url" name="externalUrl" value="<%= issue?.externalUrl || '' %>" /></label>
+      <label>Order <input type="number" name="order" value="<%= issue?.order || 0 %>" /></label>
+      <label class="checkbox-row"><input type="checkbox" name="isFeatured" <%= issue?.isFeatured !== false ? 'checked' : '' %> /> Featured</label>
+      <div class="button-row">
+        <button class="button" type="submit">Save</button>
+        <a class="button button-secondary" href="/admin/issues">Cancel</a>
+      </div>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>

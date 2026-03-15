@@ -1,0 +1,46 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+  </div>
+  <div class="container form-container">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1>Social links</h1>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Label</th>
+              <th>URL</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% links.forEach((link) => { %>
+              <tr>
+                <td><%= link.label %></td>
+                <td><%= link.url %></td>
+                <td>
+                  <form action="/admin/social-links/<%= link._id %>/delete" method="POST" onsubmit="return confirm('Delete this social link?');">
+                    <button type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <form class="site-form" action="/admin/social-links" method="POST">
+      <label>Label <input type="text" name="label" required /></label>
+      <label>Icon name <input type="text" name="icon" placeholder="instagram" /></label>
+      <label>URL <input type="url" name="url" required /></label>
+      <label>Order <input type="number" name="order" value="0" /></label>
+      <label class="checkbox-row"><input type="checkbox" name="isActive" checked /> Active</label>
+      <button class="button" type="submit">Add link</button>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>

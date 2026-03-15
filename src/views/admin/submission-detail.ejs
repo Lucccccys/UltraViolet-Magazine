@@ -1,0 +1,62 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+    <div class="admin-toolbar">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h1><%= submission.title %></h1>
+        <p class="muted">Submitted on <%= new Date(submission.createdAt).toLocaleString() %></p>
+      </div>
+      <a class="button button-secondary" href="/admin/submissions">Back to submissions</a>
+    </div>
+
+    <div class="detail-grid">
+      <article class="detail-card">
+        <h2>Submitter</h2>
+        <dl class="detail-list">
+          <dt>Name</dt>
+          <dd><%= submission.name %></dd>
+          <dt>Email</dt>
+          <dd><a href="mailto:<%= submission.email %>"><%= submission.email %></a></dd>
+          <dt>Category</dt>
+          <dd><%= submission.category %></dd>
+          <dt>Creator name</dt>
+          <dd><%= submission.creatorName || '—' %></dd>
+          <dt>Status</dt>
+          <dd>
+            <form action="/admin/submissions/<%= submission._id %>/status" method="POST" class="inline-form">
+              <select name="status" onchange="this.form.submit()">
+                <% ['new','reviewed','accepted','rejected'].forEach((option) => { %>
+                  <option value="<%= option %>" <%= submission.status === option ? 'selected' : '' %>><%= option %></option>
+                <% }) %>
+              </select>
+            </form>
+          </dd>
+        </dl>
+      </article>
+
+      <article class="detail-card">
+        <h2>Submitted content</h2>
+        <dl class="detail-list">
+          <dt>Title</dt>
+          <dd><%= submission.title %></dd>
+          <dt>Summary</dt>
+          <dd class="preserve-linebreaks"><%= submission.summary || '—' %></dd>
+          <dt>Notes</dt>
+          <dd class="preserve-linebreaks"><%= submission.notes || '—' %></dd>
+          <dt>Asset URL</dt>
+          <dd>
+            <% if (submission.assetUrl) { %>
+              <a href="<%= submission.assetUrl %>" target="_blank" rel="noreferrer"><%= submission.assetUrl %></a>
+            <% } else { %>
+              —
+            <% } %>
+          </dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

@@ -1,0 +1,49 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="section">
+  <div class="container">
+    <%- include('../partials/admin-back') %>
+  </div>
+  <div class="container settings-grid">
+    <form class="site-form" action="/admin/settings/site" method="POST">
+      <p class="eyebrow">Admin</p>
+      <h1>Site settings</h1>
+      <label>Hero title <input type="text" name="heroTitle" value="<%= site.heroTitle || '' %>" required /></label>
+      <label>Hero tagline <input type="text" name="heroTagline" value="<%= site.heroTagline || '' %>" required /></label>
+      <label>
+        Submission mode
+        <select name="submissionMode">
+          <option value="external" <%= site.submissionMode === 'external' ? 'selected' : '' %>>External Google Form</option>
+          <option value="internal" <%= site.submissionMode === 'internal' ? 'selected' : '' %>>Internal form fallback</option>
+        </select>
+      </label>
+      <label>External submission URL <input type="url" name="externalSubmissionUrl" value="<%= site.externalSubmissionUrl || '' %>" required /></label>
+      <label>Issues archive URL <input type="url" name="issuesArchiveUrl" value="<%= site.issuesArchiveUrl || '' %>" required /></label>
+      <label>Legacy Wix admin URL <input type="url" name="legacyAdminUrl" value="<%= site.legacyAdminUrl || '' %>" required /></label>
+      <label>Legacy public site URL <input type="url" name="legacySiteUrl" value="<%= site.legacySiteUrl || '' %>" required /></label>
+      <label>Footer text <input type="text" name="footerText" value="<%= site.footerText || '' %>" /></label>
+      <button class="button" type="submit">Save site settings</button>
+    </form>
+
+    <form class="site-form" action="/admin/settings/gallery" method="POST">
+      <p class="eyebrow">Admin</p>
+      <h1>Gallery hover images</h1>
+      <p class="muted">Set the background image URL shown when hovering each gallery category.</p>
+      <label>Look (Artwork / Photography) <input type="url" name="lookHoverImage" value="<%= gallery.lookHoverImage || '' %>" placeholder="https://..." /></label>
+      <label>Read (Short Stories / Poems) <input type="url" name="readHoverImage" value="<%= gallery.readHoverImage || '' %>" placeholder="https://..." /></label>
+      <label>Listen (Music / Spoken Word) <input type="url" name="listenHoverImage" value="<%= gallery.listenHoverImage || '' %>" placeholder="https://..." /></label>
+      <label>Watch (Short Films / Videos) <input type="url" name="watchHoverImage" value="<%= gallery.watchHoverImage || '' %>" placeholder="https://..." /></label>
+      <button class="button" type="submit">Save gallery settings</button>
+    </form>
+
+    <form class="site-form" action="/admin/settings/about" method="POST">
+      <p class="eyebrow">Admin</p>
+      <h1>About page</h1>
+      <label>Title <input type="text" name="title" value="<%= about.title || '' %>" required /></label>
+      <label>Body <textarea name="body" rows="12"><%= about.body || '' %></textarea></label>
+      <label>Image URL <input type="url" name="imageUrl" value="<%= about.imageUrl || '' %>" /></label>
+      <button class="button" type="submit">Save about page</button>
+    </form>
+  </div>
+</main>
+<%- include('../partials/footer') %>
