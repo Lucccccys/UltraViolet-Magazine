@@ -10,11 +10,11 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const featuredIssues = await Issue.find({ isFeatured: true }).sort({ order: 1, year: -1 }).lean();
+    const allIssues = await Issue.find({}).sort({ year: -1 }).lean();
 
     res.render('pages/home', {
       title: 'Home',
-      featuredIssues
+      allIssues
     });
   } catch (error) {
     next(error);
@@ -42,38 +42,38 @@ router.get('/gallery', async (req, res, next) => {
     const gallery = await getSetting('gallery', {});
 
     const defaultImages = {
-      look: '/images/background.webp',
+      look: '/images/background-2.webp',
       read: '/images/background-2.webp',
-      listen: '/images/logo.webp',
-      watch: '/images/background.webp'
+      listen: '/images/background-2.webp',
+      watch: '/images/background-2.webp'
     };
 
     const cards = [
       {
         category: 'look',
         title: 'Look',
-        subtitle: 'Artwork / Photography',
+        subtitle: 'Artwork\nPhotograph',
         description: 'Browse artwork and photography in a visual grid.',
         hoverImageUrl: gallery.lookHoverImage || defaultImages.look
       },
       {
         category: 'read',
         title: 'Read',
-        subtitle: 'Short Stories / Poems',
+        subtitle: 'Short Stories\nPoems',
         description: 'Explore short stories and poems with preview cards.',
         hoverImageUrl: gallery.readHoverImage || defaultImages.read
       },
       {
         category: 'listen',
         title: 'Listen',
-        subtitle: 'Music / Spoken Word',
+        subtitle: 'Music\nSpoken Work',
         description: 'Play music and spoken word directly in the browser.',
         hoverImageUrl: gallery.listenHoverImage || defaultImages.listen
       },
       {
         category: 'watch',
         title: 'Watch',
-        subtitle: 'Short Films / Videos',
+        subtitle: 'Short Films\nVideos',
         description: 'View short films and videos with embedded playback.',
         hoverImageUrl: gallery.watchHoverImage || defaultImages.watch
       }

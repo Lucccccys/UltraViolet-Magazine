@@ -1,9 +1,6 @@
 <%- include('../partials/head') %>
-  <%- include('../partials/header') %>
-    <main class="uv-themed-page">
-      <section class="section">
-        <div class="container narrow-board">
-          <div class="uv-board home-board">
+    <main class="uv-only-page">
+        <div class="uv-board home-board">
             <div class="home-board-header">
               <h1>UltraViolet Magazine</h1>
               <div class="home-board-nav">
@@ -16,35 +13,29 @@
             <div class="home-board-issues">
               <h2>Featured issues</h2>
               <div class="home-issues-row">
-                <% const issueTiles=featuredIssues.slice(0, 4); %>
-                  <% issueTiles.forEach((issue)=> { %>
-                    <article class="issue-tile <%= issue.coverImageUrl ? 'issue-tile-with-cover' : '' %>">
-                      <% if (issue.coverImageUrl) { %>
-                        <img class="issue-tile-cover" src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>"
-                          loading="lazy" />
+                <% allIssues.forEach((issue) => { %>
+                  <article class="issue-tile">
+                    <% if (issue.externalUrl) { %>
+                      <a class="issue-tile-image" href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">
+                        <% if (issue.coverImageUrl) { %>
+                          <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
                         <% } %>
-                          <div class="issue-tile-content">
-                            <p class="issue-tile-year">
-                              <%= issue.year %>
-                            </p>
-                            <p class="issue-tile-meta">issue</p>
-                            <p class="issue-tile-title">
-                              <%= issue.title %>
-                            </p>
-                            <% if (issue.externalUrl) { %>
-                              <a href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">Open issue</a>
-                              <% } %>
-                          </div>
-                    </article>
-                    <% }) %>
-                      <% for (let i=issueTiles.length; i < 4; i +=1) { %>
-                        <article class="issue-tile issue-tile-empty">
-                          <p class="issue-tile-year">20<%= 23 + i %>
-                          </p>
-                          <p class="issue-tile-meta">issue</p>
-                          <p class="issue-tile-title">Upcoming archive entry</p>
-                        </article>
+                        <span class="issue-tile-year"><%= issue.year %></span>
+                      </a>
+                    <% } else { %>
+                      <div class="issue-tile-image">
+                        <% if (issue.coverImageUrl) { %>
+                          <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
                         <% } %>
+                        <span class="issue-tile-year"><%= issue.year %></span>
+                      </div>
+                    <% } %>
+                    <div class="issue-tile-info">
+                      <p class="issue-tile-meta">issue</p>
+                      <p class="issue-tile-title"><%= issue.title %></p>
+                    </div>
+                  </article>
+                <% }) %>
               </div>
             </div>
 
@@ -52,18 +43,22 @@
               <p>
                 <%= siteSettings.heroTagline || 'Get Creative. Explore Boundaries' %>
               </p>
-            </div>
-
-            <div class="home-board-meta">
               <div class="home-mini-social">
-                <a href="https://www.instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-                <a href="https://www.facebook.com" target="_blank" rel="noreferrer">Facebook</a>
-                <a href="mailto:ultravioletmagazine@gmail.com">Email</a>
+                <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+                <a href="mailto:ultravioletmagazine@gmail.com" aria-label="Email">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
               </div>
+            </div>
+            <div class="home-board-footer">
               <p>Ultraviolet Magazine - Queen's University, Kingston ON</p>
             </div>
-          </div>
         </div>
-      </section>
     </main>
-    <%- include('../partials/footer') %>
+  </body>
+</html>

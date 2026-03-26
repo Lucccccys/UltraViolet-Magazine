@@ -1,27 +1,28 @@
 <%- include('../partials/head') %>
-<%- include('../partials/header') %>
-<main class="uv-themed-page section">
-  <div class="container narrow-board">
-    <p class="eyebrow">Gallery Page</p>
-    <div class="uv-board gallery-board">
-      <div class="gallery-board-title">UV GALLERY</div>
-      <div class="gallery-columns">
-        <% const galleryNumbers = ['2', '3', '4', '5']; %>
-        <% cards.forEach((card, index) => { %>
-          <a
-            class="gallery-col gallery-entry entry-<%= card.category %>"
-            href="/gallery/<%= card.category %>"
-            style="--entry-image: url('<%= card.hoverImageUrl %>');"
-          >
-            <div class="gallery-col-head">
-              <h2><%= card.title.toUpperCase() %></h2>
-              <p class="entry-subtitle"><%= card.subtitle.toUpperCase() %></p>
-            </div>
-            <p class="entry-index"><%= galleryNumbers[index] || String(index + 2) %></p>
-          </a>
-        <% }) %>
-      </div>
+<main class="uv-only-page">
+  <div class="uv-board gallery-board">
+    <a href="/" class="gallery-logo-link">
+      <img src="/images/logo.webp" alt="Ultraviolet" class="gallery-logo-img" />
+      <span>Ultraviolet</span>
+    </a>
+    <div class="gallery-board-title">UV GALLERY</div>
+    <div class="gallery-columns">
+      <% const galleryNumbers = ['2', '3', '4', '5']; %>
+      <% cards.forEach((card, index) => { %>
+        <a
+          class="gallery-col gallery-entry entry-<%= card.category %>"
+          href="/gallery/<%= card.category %>"
+          style="--entry-image: url('<%= card.hoverImageUrl %>');"
+        >
+          <div class="gallery-col-head">
+            <h2><%= card.title.toUpperCase() %></h2>
+            <p class="entry-subtitle"><%- card.subtitle.toUpperCase().replace(/\n/g, '<br>') %></p>
+          </div>
+          <p class="entry-index"><%= galleryNumbers[index] || String(index + 2) %></p>
+        </a>
+      <% }) %>
     </div>
   </div>
 </main>
-<%- include('../partials/footer') %>
+</body>
+</html>
