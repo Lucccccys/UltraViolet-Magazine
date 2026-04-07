@@ -39,50 +39,7 @@ router.get('/about', async (req, res, next) => {
 
 router.get('/gallery', async (req, res, next) => {
   try {
-    const gallery = await getSetting('gallery', {});
-
-    const defaultImages = {
-      look: '/images/background-2.webp',
-      read: '/images/background-2.webp',
-      listen: '/images/background-2.webp',
-      watch: '/images/background-2.webp'
-    };
-
-    const cards = [
-      {
-        category: 'look',
-        title: 'Look',
-        subtitle: 'Artwork\nPhotograph',
-        description: 'Browse artwork and photography in a visual grid.',
-        hoverImageUrl: gallery.lookHoverImage || defaultImages.look
-      },
-      {
-        category: 'read',
-        title: 'Read',
-        subtitle: 'Short Stories\nPoems',
-        description: 'Explore short stories and poems with preview cards.',
-        hoverImageUrl: gallery.readHoverImage || defaultImages.read
-      },
-      {
-        category: 'listen',
-        title: 'Listen',
-        subtitle: 'Music\nSpoken Work',
-        description: 'Play music and spoken word directly in the browser.',
-        hoverImageUrl: gallery.listenHoverImage || defaultImages.listen
-      },
-      {
-        category: 'watch',
-        title: 'Watch',
-        subtitle: 'Short Films\nVideos',
-        description: 'View short films and videos with embedded playback.',
-        hoverImageUrl: gallery.watchHoverImage || defaultImages.watch
-      }
-    ];
-
-    res.render('pages/gallery', {
-      title: 'Gallery',
-      cards
-    });
+    return res.redirect('/gallery/look');
   } catch (error) {
     next(error);
   }
@@ -105,6 +62,7 @@ router.get('/gallery/:category', async (req, res, next) => {
 
     res.render('pages/category', {
       title: categoryMeta(category).title,
+      bodyClass: 'gallery-interface-body',
       category,
       meta: categoryMeta(category),
       items,
