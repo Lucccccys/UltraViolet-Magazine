@@ -11,31 +11,39 @@
             </div>
 
             <div class="home-board-issues">
+              <% 
+                const featuredYears = Array.from({ length: 16 }, (_, index) => 2025 - index);
+                const issueMap = new Map((allIssues || []).map((issue) => [Number(issue.year), issue]));
+              %>
               <h2>Featured issues</h2>
-              <div class="home-issues-row">
-                <% allIssues.forEach((issue) => { %>
-                  <article class="issue-tile">
-                    <% if (issue.externalUrl) { %>
-                      <a class="issue-tile-image" href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">
-                        <% if (issue.coverImageUrl) { %>
-                          <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
-                        <% } %>
-                        <span class="issue-tile-year"><%= issue.year %></span>
-                      </a>
-                    <% } else { %>
-                      <div class="issue-tile-image">
-                        <% if (issue.coverImageUrl) { %>
-                          <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
-                        <% } %>
-                        <span class="issue-tile-year"><%= issue.year %></span>
+              <div class="home-issues-scroll" aria-label="Featured issues from 2025 to 2010">
+                <div class="home-issues-row">
+                  <% featuredYears.forEach((year) => { 
+                    const issue = issueMap.get(year);
+                  %>
+                    <article class="issue-tile">
+                      <% if (issue && issue.externalUrl) { %>
+                        <a class="issue-tile-image" href="<%= issue.externalUrl %>" target="_blank" rel="noreferrer">
+                          <% if (issue.coverImageUrl) { %>
+                            <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
+                          <% } %>
+                          <span class="issue-tile-year"><%= year %></span>
+                        </a>
+                      <% } else { %>
+                        <div class="issue-tile-image <%= issue ? '' : 'issue-tile-image--placeholder' %>">
+                          <% if (issue && issue.coverImageUrl) { %>
+                            <img src="<%= issue.coverImageUrl %>" alt="<%= issue.title %>" loading="lazy" />
+                          <% } %>
+                          <span class="issue-tile-year"><%= year %></span>
+                        </div>
+                      <% } %>
+                      <div class="issue-tile-info">
+                        <p class="issue-tile-meta">issue</p>
+                        <p class="issue-tile-title"><%= issue ? issue.title : 'Archive issue' %></p>
                       </div>
-                    <% } %>
-                    <div class="issue-tile-info">
-                      <p class="issue-tile-meta">issue</p>
-                      <p class="issue-tile-title"><%= issue.title %></p>
-                    </div>
-                  </article>
-                <% }) %>
+                    </article>
+                  <% }) %>
+                </div>
               </div>
             </div>
 
