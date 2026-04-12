@@ -1,103 +1,203 @@
-<%- include('../partials/head') %>
-<%- include('../partials/header') %>
-<main class="section">
-  <div class="container">
-    <div class="page-back-row">
-      <a class="page-back-link" href="/gallery" aria-label="Back to gallery">← Back</a>
-    </div>
-    <p class="eyebrow"><%= meta.title %> Page</p>
-    <h1><%= meta.subtitle %></h1>
+<% const navItems=[ { key: 'look' , label: 'LOOK' }, { key: 'read' , label: 'READ' }, { key: 'listen' , label: 'LISTEN'
+  }, { key: 'watch' , label: 'WATCH' } ]; const screenTitles={ look: 'VISUAL ARTS & PHOTOGRAPHY' ,
+  read: 'POMEMS & SHORT STORIES' , listen: 'MUSIC & SPOKEN WORK' , watch: 'SHORT FILMS & VIDEOS' }; const
+  toCleanText=(value, fallback)=> {
+  const text = String(value || '').replace(/\s+/g, ' ').trim();
+  return text || fallback;
+  };
 
-    <% if (category === 'look') { %>
-      <div class="section-label-row">
-        <span class="pill">Artwork</span>
-        <span class="pill">Photography</span>
-      </div>
-      <div class="masonry-grid">
-        <% items.forEach((item) => { %>
-          <a class="masonry-item" href="/content/<%= item.slug %>">
-            <img src="<%= item.coverImageUrl || 'https://placehold.co/700x700?text=Artwork' %>" alt="<%= item.title %>" />
-            <div class="overlay">
-              <h3><%= item.title %></h3>
-              <p><%= item.creatorName %></p>
-            </div>
-          </a>
-        <% }) %>
-      </div>
-    <% } %>
+  const readFallback = {
+  title: 'More than Physics',
+  creatorName: 'XXX',
+  summary: "Kian didn't know what he was doing when he called her. It only felt real when she picked up..."
+  };
 
-    <% if (category === 'read') { %>
-      <div class="section-label-row">
-        <span class="pill">Short Stories</span>
-        <span class="pill">Poems</span>
-      </div>
-      <div class="card-grid">
-        <% items.forEach((item) => { %>
-          <article class="card read-card">
-            <div class="card-body">
-              <span class="pill"><%= item.subtype || 'piece' %></span>
-              <h3><%= item.title %></h3>
-              <p>By <%= item.creatorName %></p>
-              <p><%= item.summary %></p>
-              <a class="button button-secondary" href="/content/<%= item.slug %>">Read</a>
-            </div>
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
+  const readCards = Array.from({ length: 6 }, (_, index) => {
+  const item = items[index] || {};
+  return {
+  slug: item.slug,
+  title: toCleanText(item.title, readFallback.title),
+  creatorName: toCleanText(item.creatorName, readFallback.creatorName),
+  summary: toCleanText(item.summary || item.body, readFallback.summary)
+  };
+  });
 
-    <% if (category === 'listen') { %>
-      <div class="section-label-row">
-        <span class="pill">Music</span>
-        <span class="pill">Spoken Word</span>
-      </div>
-      <div class="stack-list">
-        <% items.forEach((item) => { %>
-          <article class="audio-card">
-            <div>
-              <h3><%= item.title %></h3>
-              <p>By <%= item.creatorName %></p>
-              <p><%= item.summary %></p>
-            </div>
-            <audio controls preload="none" src="<%= item.audioUrl %>"></audio>
-            <% if (item.durationLabel) { %>
-              <p class="muted">Runtime: <%= item.durationLabel %></p>
-            <% } %>
-            <a class="button button-secondary" href="/content/<%= item.slug %>">Details</a>
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
+  const lookTiles = Array.from({ length: 12 }, (_, index) => ({
+  slug: items[index] ? items[index].slug : '',
+  title: items[index] ? toCleanText(items[index].title, `Visual work ${index + 1}`) : `Visual placeholder ${index + 1}`
+  }));
 
-    <% if (category === 'watch') { %>
-      <div class="section-label-row">
-        <span class="pill">Short Films</span>
-        <span class="pill">Videos</span>
-      </div>
-      <div class="stack-list video-list">
-        <% items.forEach((item) => { %>
-          <article class="video-card">
-            <div>
-              <h3><%= item.title %></h3>
-              <p>By <%= item.creatorName %></p>
-              <p><%= item.summary %></p>
-            </div>
-            <% if (isEmbeddableVideo(item.videoUrl)) { %>
-              <iframe src="<%= toEmbedUrl(item.videoUrl) %>" title="<%= item.title %> video" allowfullscreen loading="lazy"></iframe>
-            <% } else if (item.videoUrl) { %>
-              <video controls preload="metadata" src="<%= item.videoUrl %>"></video>
-            <% } %>
-            <a class="button button-secondary" href="/content/<%= item.slug %>">Details</a>
-          </article>
-        <% }) %>
-      </div>
-    <% } %>
+  const listenFallback = {
+  title: 'Audio Title',
+  creatorName: 'Creator Name',
+  issueMeta: 'Year / issue',
+  durationLabel: '0 : 00',
+  audioUrl: ''
+  };
 
-    <% if (!items.length) { %>
-      <div class="empty-state">
-        <p>No published items are available yet for this category.</p>
-      </div>
-    <% } %>
-  </div>
-</main>
-<%- include('../partials/footer') %>
+  const listenCards = Array.from({ length: Math.max(6, items.length || 0) }, (_, index) => {
+  const item = items[index] || {};
+  return {
+  slug: item.slug,
+  title: toCleanText(item.title, listenFallback.title),
+  creatorName: toCleanText(item.creatorName, listenFallback.creatorName),
+  issueMeta: toCleanText(item.issueYear ? `${item.issueYear} / issue` : '', listenFallback.issueMeta),
+  durationLabel: toCleanText(item.durationLabel, listenFallback.durationLabel),
+  audioUrl: String(item.audioUrl || '').trim()
+  };
+  }).slice(0, 6);
+
+  const watchFallback = {
+  title: 'Film Title',
+  creatorName: 'Creator Name'
+  };
+
+  const watchCards = Array.from({ length: 2 }, (_, index) => {
+  const item = items[index] || {};
+  return {
+  slug: item.slug,
+  title: toCleanText(item.title, watchFallback.title),
+  creatorName: toCleanText(item.creatorName, watchFallback.creatorName)
+  };
+  });
+  %>
+  <%- include('../partials/head') %>
+    <main class="gallery-interface gallery-interface--<%= category %>">
+      <header class="gallery-interface-topbar">
+        <a href="/" class="gallery-interface-brand" aria-label="Go to homepage">
+          <img src="/images/logo.webp" alt="Ultraviolet logo" class="gallery-interface-brand-image" />
+          <span class="gallery-interface-brand-text">Ultraviolet</span>
+        </a>
+
+        <nav class="gallery-interface-nav" aria-label="Gallery categories">
+          <% navItems.forEach((navItem)=> { %>
+            <a href="/gallery/<%= navItem.key %>"
+              class="gallery-interface-nav-link <%= category === navItem.key ? 'is-active' : '' %>"
+              aria-current="<%= category === navItem.key ? 'page' : 'false' %>">
+              <span>
+                <%= navItem.label %>
+              </span>
+            </a>
+            <% }) %>
+        </nav>
+
+        <a href="<%= submitUrl %>" class="gallery-interface-submit">SUBMIT</a>
+      </header>
+
+      <section class="gallery-interface-content">
+        <h1 class="gallery-interface-title">
+          <%= screenTitles[category] %>
+        </h1>
+
+        <% if (category==='read' ) { %>
+          <div class="gallery-read-grid">
+            <% readCards.forEach((card)=> { %>
+              <article class="gallery-read-card">
+                <h2 class="gallery-read-card-title">
+                  <%= card.title %>
+                </h2>
+                <p class="gallery-read-card-author">by <%= card.creatorName %>
+                </p>
+                <p class="gallery-read-card-summary">
+                  <%= card.summary %>
+                </p>
+                <% if (card.slug) { %>
+                  <a class="gallery-read-card-link" href="/content/<%= card.slug %>">
+                    <span>read more</span>
+                    <svg viewBox="0 0 44 30" aria-hidden="true" focusable="false">
+                      <path d="M2 15h34" />
+                      <path d="M28 3l12 12-12 12" />
+                    </svg>
+                  </a>
+                  <% } else { %>
+                    <span class="gallery-read-card-link is-static" aria-hidden="true">
+                      <span>read more</span>
+                      <svg viewBox="0 0 44 30" aria-hidden="true" focusable="false">
+                        <path d="M2 15h34" />
+                        <path d="M28 3l12 12-12 12" />
+                      </svg>
+                    </span>
+                    <% } %>
+              </article>
+              <% }) %>
+          </div>
+          <% } %>
+
+            <% if (category==='look' ) { %>
+              <div class="gallery-look-grid" aria-label="Visual gallery layout preview">
+                <% lookTiles.forEach((tile, index)=> { %>
+                  <% if (tile.slug) { %>
+                    <a href="/content/<%= tile.slug %>" class="gallery-look-tile look-tile-<%= index + 1 %>">
+                      <span class="sr-only">
+                        <%= tile.title %>
+                      </span>
+                    </a>
+                    <% } else { %>
+                      <div class="gallery-look-tile look-tile-<%= index + 1 %>" aria-hidden="true"></div>
+                      <% } %>
+                        <% }) %>
+              </div>
+              <% } %>
+
+                <% if (category==='listen' ) { %>
+                  <div class="gallery-listen-stack">
+                    <% listenCards.forEach((card)=> { %>
+                      <article class="gallery-listen-card <%= card.audioUrl ? 'has-audio' : '' %>" <%=card.audioUrl
+                        ? 'data-audio-card' : '' %>>
+                        <button class="gallery-listen-play" type="button"
+                          aria-label="<%= card.audioUrl ? `Play ${card.title}` : 'Audio preview unavailable' %>"
+                          <%=card.audioUrl ? '' : 'disabled' %>
+                          >
+                          <span class="gallery-listen-play-triangle" aria-hidden="true"></span>
+                        </button>
+
+                        <div class="gallery-listen-copy">
+                          <h2>
+                            <%= card.title %>
+                          </h2>
+                          <p><span>
+                              <%= card.creatorName %>
+                            </span> <strong>
+                              <%= card.issueMeta %>
+                            </strong></p>
+                        </div>
+
+                        <div class="gallery-listen-progress" aria-hidden="true">
+                          <span class="gallery-listen-progress-fill" data-audio-progress></span>
+                        </div>
+
+                        <div class="gallery-listen-time" data-audio-time>
+                          <%= card.durationLabel %>
+                        </div>
+
+                        <% if (card.audioUrl) { %>
+                          <audio class="gallery-listen-audio" preload="metadata" src="<%= card.audioUrl %>"></audio>
+                          <% } %>
+                      </article>
+                      <% }) %>
+                  </div>
+                  <% } %>
+
+                    <% if (category==='watch' ) { %>
+                      <div class="gallery-watch-stack">
+                        <% watchCards.forEach((card)=> { %>
+                          <article class="gallery-watch-card">
+                            <% if (card.slug) { %>
+                              <a class="gallery-watch-heading" href="/content/<%= card.slug %>">
+                                <%= card.title %> - <%= card.creatorName %>
+                              </a>
+                              <% } else { %>
+                                <h2 class="gallery-watch-heading">
+                                  <%= card.title %> - <%= card.creatorName %>
+                                </h2>
+                                <% } %>
+                                  <div class="gallery-watch-frame"></div>
+                          </article>
+                          <% }) %>
+                      </div>
+                      <% } %>
+      </section>
+    </main>
+    </body>
+
+    </html>

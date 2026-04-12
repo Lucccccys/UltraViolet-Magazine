@@ -25,12 +25,13 @@ router.get('/about', async (req, res, next) => {
   try {
     const about = await getSetting('about', {
       title: 'About Ultraviolet',
-      body: 'Ultraviolet is a creative magazine devoted to prose, poetry, art, photography, graphics, music, spoken word, and video.'
+      body: 'Ultraviolet is a 24-year-old magazine devoted to the creative arts: prose, poetry, art, photography, graphics, music…you name it, we want it. We are a student club based out of Queen’s University in Kingston, ON, and we love promoting creativity both on and off campus.'
     });
 
     res.render('pages/about', {
       title: 'About',
-      about
+      about,
+      bodyClass: 'about-body'
     });
   } catch (error) {
     next(error);
@@ -105,6 +106,7 @@ router.get('/gallery/:category', async (req, res, next) => {
 
     res.render('pages/category', {
       title: categoryMeta(category).title,
+      bodyClass: 'gallery-interface-body',
       category,
       meta: categoryMeta(category),
       items,
