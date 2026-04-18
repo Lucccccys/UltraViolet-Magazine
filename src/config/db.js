@@ -12,13 +12,19 @@ async function connectToDatabase() {
   const safeUri = mongoUri.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
   console.log('Using MongoDB URI:', safeUri);
 
-  await mongoose.connect(mongoUri, {
-    autoIndex: true
-  });
+  try {
+    await mongoose.connect(mongoUri, {
+      autoIndex: true,
+      serverSelectionTimeoutMS: 10000
+    });
 
-  console.log('Connected to MongoDB');
-  console.log('Mongo host:', mongoose.connection.host);
-  console.log('Mongo db name:', mongoose.connection.name);
+    console.log('Connected to MongoDB');
+    console.log('Mongo host:', mongoose.connection.host);
+    console.log('Mongo db name:', mongoose.connection.name);
+  } catch (error) {
+    console.error('MongoDB connect error:', error);
+    throw error;
+  }
 }
 
 module.exports = { connectToDatabase };
